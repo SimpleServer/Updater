@@ -3,21 +3,22 @@ package update;
 import java.net.URL;
 import java.util.Calendar;
 import java.io.*;
+import org.apache.commons.io.*;
 public class Downloader {
 
 	
 public static File DownloadToFile(URL source, String dest){
 	try {
-		BufferedInputStream bis = new BufferedInputStream(source.openStream(), 1024);
-		File outfile = new File(dest + source.getFile());
+		BufferedInputStream bis = new BufferedInputStream(source.openStream(), 1);
+		File outfile = new File(dest);
 		if(outfile.canWrite()){
 			outfile.createNewFile();
 		}
 		FileOutputStream fos = new FileOutputStream(outfile);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		byte[] data = new byte[1024];
+		byte[] data = new byte[1];
 		int x=0;
-		while((x=bis.read(data,0,1024))>=0)
+		while((x=bis.read(data,0,1))>=0)
 		{
 		bos.write(data,0,x);
 		}
@@ -35,7 +36,7 @@ public static File Download(URL source){
 	Calendar cal = Calendar.getInstance();
 	
 	try {
-		return DownloadToFile(source, File.createTempFile("jDownload_", cal.getTime().toString()).getAbsolutePath());
+		return DownloadToFile(source, File.createTempFile("jDownload_", "_dl").getAbsolutePath());
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -44,14 +45,6 @@ public static File Download(URL source){
 }
 
 public static void FileCopy(File inputFile, File outputFile) throws IOException {
-    FileReader in = new FileReader(inputFile);
-    FileWriter out = new FileWriter(outputFile);
-    int c;
-
-    while ((c = in.read()) != -1)
-      out.write(c);
-
-    in.close();
-    out.close();
+    FileUtils.copyFile(inputFile,outputFile);
   }
 }

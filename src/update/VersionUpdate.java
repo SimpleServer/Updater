@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
@@ -17,9 +16,9 @@ public class VersionUpdate {
 			FileReader fis = new FileReader(versionFile);
 			BufferedReader bis = new BufferedReader(fis);
 			try {
-				URL updateUrl = new URL(bis.readLine());
 				Version newVersion = new Version(bis.readLine());
-				if(newVersion.compare(compare)){
+				URL updateUrl = new URL(bis.readLine());
+				if(compare.compare(newVersion)){
 					if(offerUpdate()){
 						doUpdate(updateUrl);
 					}

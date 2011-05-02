@@ -8,27 +8,35 @@ public class Version {
 	String descriptor;
 
 	public Version(String ver){
+		System.out.println("Parsing Version: " + ver);
 		String numericalVersion = new String();
 		try{
 		if(ver.contains("-")){
-		numericalVersion = ver.substring(0, ver.indexOf('-')-1);
+		System.out.println("Found descriptor!");
+		numericalVersion = ver.substring(0, ver.indexOf('-'));
 		this.descriptor = ver.substring(ver.indexOf('-')+1, ver.length());
 		}else{
 		numericalVersion = ver;
 		}
 		if(numericalVersion.contains(".")){
-			primary = Integer.parseInt(numericalVersion.substring(0, numericalVersion.indexOf('.')-1));
+			System.out.println("Found primary! " + numericalVersion);
+			primary = Integer.parseInt(numericalVersion.substring(0, numericalVersion.indexOf('.')));
 			numericalVersion = numericalVersion.substring(numericalVersion.indexOf('.')+1, numericalVersion.length());
+			if(numericalVersion.contains(".")){
+				System.out.println("Found secondary!");
+				minor = Integer.parseInt(numericalVersion.substring(0, numericalVersion.indexOf('.')));
+				numericalVersion = numericalVersion.substring(numericalVersion.indexOf('.')+1, numericalVersion.length());
+				try{
+				tertiary = Integer.parseInt(numericalVersion);
+				}catch(Exception e){
+					//no tertiary
+				}
+			}else{
+				minor = Integer.parseInt(numericalVersion);
+				System.out.println("Minor: " + minor);
+			}
 		}else{
 			primary = Integer.parseInt(numericalVersion);
-		}
-		if(numericalVersion.contains(".")){
-			minor = Integer.parseInt(numericalVersion.substring(0, numericalVersion.indexOf('.')-1));
-			numericalVersion = numericalVersion.substring(numericalVersion.indexOf('.')+1, numericalVersion.length());
-		}
-		if(numericalVersion.contains(".")){
-			tertiary = Integer.parseInt(numericalVersion.substring(0, numericalVersion.indexOf('.')-1));
-			numericalVersion = numericalVersion.substring(numericalVersion.indexOf('.')+1, numericalVersion.length());
 		}
 		}catch(Exception e){
 			System.out.println("Issue parsing Version!");
