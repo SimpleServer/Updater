@@ -44,6 +44,31 @@ public class VersionUpdate {
 
 	}
 
+	public static boolean prepDownload(URL version){
+		File versionFile = Downloader.Download(version);
+		try {
+			FileReader fis = new FileReader(versionFile);
+			BufferedReader bis = new BufferedReader(fis);
+			try {
+				Version newVersion = new Version(bis.readLine());
+				URL updateUrl = new URL(bis.readLine());
+					if(offerDownload()){
+						doDownload(updateUrl);
+					}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+
+	}
+	
 	public static boolean offerUpdate(){
 		Scanner myScan = new Scanner(System.in);
 		System.out.println("There is an update available. Would you like to apply it?");
@@ -56,6 +81,18 @@ public class VersionUpdate {
 		}
 	}
 
+	public static boolean offerDownload(){
+		Scanner myScan = new Scanner(System.in);
+		System.out.println("Would you like to perform an initial download of SimpleServer?");
+		System.out.print("(Y/n): ");
+		String response = myScan.nextLine().toLowerCase().replace(" ", "");
+		if(response.equals("yes") || response.equals("y")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	public static void doUpdate(URL loc){
 		File tempUpdate = Downloader.Download(loc);
 		File replace = new File("./SimpleServer.jar");
@@ -67,6 +104,19 @@ public class VersionUpdate {
 			Downloader.FileCopy(replace, backup);
 
 			Downloader.FileCopy(tempUpdate, replace);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public static void doDownload(URL loc){
+		File tempFile = Downloader.Download(loc);
+		File replace = new File("./SimpleServer.jar");
+		try{
+			if(!replace.exists()){
+				replace.createNewFile();
+			}
+			
+			Downloader.FileCopy(tempFile, replace);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

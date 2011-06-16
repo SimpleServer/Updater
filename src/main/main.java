@@ -36,7 +36,7 @@ public class main {
 					try {
 						//TODO convert this into an array with load balancing for multiple update sites
 						URL mainUpdateMirror = new URL("http://minecraft.dreamsofmercury.com/update/version.php");
-						VersionUpdate.isNewVersion(new Version("0.0.0"), mainUpdateMirror);
+						VersionUpdate.prepDownload(mainUpdateMirror);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
