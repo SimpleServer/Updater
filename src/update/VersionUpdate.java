@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
+import update.Downloader;
+import update.Version;
+
 public class VersionUpdate {
 
 	public static boolean isNewVersion(Version compare, URL version){
@@ -58,9 +61,12 @@ public class VersionUpdate {
 		File replace = new File("./SimpleServer.jar");
 		File backup = new File("./SimpleServerBackup.jar");
 		try{
-		Downloader.FileCopy(replace, backup);
-		replace.delete();
-		Downloader.FileCopy(tempUpdate, replace);
+			if(!replace.exists()){
+				replace.createNewFile();
+			}
+			Downloader.FileCopy(replace, backup);
+
+			Downloader.FileCopy(tempUpdate, replace);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

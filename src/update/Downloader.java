@@ -1,9 +1,10 @@
 package update;
 
 import java.net.URL;
+import org.apache.commons.io.*;
+
 import java.util.Calendar;
 import java.io.*;
-import org.apache.commons.io.*;
 public class Downloader {
 
 	
@@ -45,6 +46,6 @@ public static File Download(URL source){
 }
 
 public static void FileCopy(File inputFile, File outputFile) throws IOException {
-    FileUtils.copyFile(inputFile,outputFile);
+    FileUtils.copyFile(inputFile, outputFile);
   }
 }
